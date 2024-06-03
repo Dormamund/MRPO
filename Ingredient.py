@@ -1,4 +1,6 @@
+from dataclasses import dataclass, field
+
+@dataclass(frozen=True)
 class Ingredient:
-    def __init__(self, ingredient_id, name):
-        self.ingredient_id = ingredient_id
-        self.name = name
+    ingredient_id: int
+    name: str

@@ -1,5 +1,4 @@
 from Calories import Calories
-
 from Diary import Diary
 from Diet import Diet
 from Dish import Dish
@@ -12,7 +11,7 @@ from Person import Person
 def main():
     repo = FakeRepository()
 
-    # Create instances
+    # Создаем экземпляры
     person = Person(1, "John Doe")
     diary = Diary(1, person)
     diet = Diet(1, "Keto")
@@ -22,7 +21,7 @@ def main():
     ingredient1 = Ingredient(1, "Lettuce")
     ingredient2 = Ingredient(2, "Tomato")
 
-    # Establish relationships
+    #устанавливаем отношения
     person.set_diary(diary)
     person.choose_diet(diet)
     diet.add_dish(dish)
@@ -30,7 +29,7 @@ def main():
     dish.add_ingredient(ingredient2)
     diary.add_dish(dish)
 
-    # Add instances to the repository
+    # Добавляем экземпляры в репозиторий
     repo.add_person(person)
     repo.add_diary(diary)
     repo.add_diet(diet)
@@ -38,7 +37,7 @@ def main():
     repo.add_ingredient(ingredient1)
     repo.add_ingredient(ingredient2)
 
-    # Retrieve and use instances
+    # Извлекаем и используем экземпляры
     retrieved_person = repo.get_person(1)
     print(f"Person Name: {retrieved_person.name}")
     print(f"Diary ID: {retrieved_person.diary.diary_id}")

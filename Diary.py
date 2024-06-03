@@ -6,3 +6,8 @@ class Diary:
 
     def add_dish(self, dish):
         self.dishes.append(dish)
+
+    def __eq__(self, other):
+        if isinstance(other, Diary):
+            return self.diary_id == other.diary_id and self.person == other.person
+        return False
