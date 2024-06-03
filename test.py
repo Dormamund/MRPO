@@ -1,59 +1,33 @@
 import unittest
-from Calories import Calories
-from Diary import Diary
-from Diet import Diet
 from Dish import Dish
-from FakeRepository import FakeRepository
-from Ingredient import Ingredient
-from Macronutrients import Macronutrients
-from Person import Person
-from business_rules import assign_diary_to_person, assign_diet_to_person, add_dish_to_diet, add_ingredient_to_dish, \
-    add_dish_to_diary
+from business_rules import check_dish_carb, check_dish_fat, validate_nutritional_values, validate_user_height
 
 
 class TestBusinessRules(unittest.TestCase):
+
     def setUp(self):
-        self.repo = FakeRepository()
-        self.person = Person(1, "John Doe")
-        self.diary = Diary(1, self.person)
-        self.diet = Diet(1, "Keto")
-        self.macronutrients = Macronutrients(20, 30, 50)
-        self.calories = Calories(500)
-        self.dish = Dish(1, "Salad", self.macronutrients, self.calories)
-        self.ingredient1 = Ingredient(1, "Lettuce")
-        self.ingredient2 = Ingredient(2, "Tomato")
+        self.high_carb_dish = Dish(1, "Квашеная капуста", 100, 20, 30, 1000, {}, diet='низкокалорийная')
+        self.low_carb_dish = Dish(2, "Шашлык свиной", 600, 25, 15, 40, {}, diet='кето-диета')
+        self.high_fat_dish = Dish(3, "Макароны по флотски", 150, 15, 25, 45, {}, diet='белковая диета')
+        self.valid_dish = Dish(4, "Котлеты бабушкины", 900, 20, 20, 35, {}, diet='низкокаллорийная')
 
-    def test_assign_diary_to_person(self):
-        assign_diary_to_person(self.person, self.diary)
-        self.assertEqual(self.person.diary, self.diary)
+    def test_check_dish_carb(self):
+        self.assertTrue(check_dish_carb(self.high_carb_dish))
+        self.assertFalse(check_dish_carb(self.low_carb_dish))
 
-    def test_assign_diet_to_person(self):
-        assign_diet_to_person(self.person, self.diet)
-        self.assertEqual(self.person.diet, self.diet)
+    def test_check_dish_fat(self):
+        self.assertTrue(check_dish_fat(self.high_fat_dish))
+        self.assertFalse(check_dish_fat(self.valid_dish))
 
-    def test_add_dish_to_diet(self):
-        add_dish_to_diet(self.diet, self.dish)
-        self.assertIn(self.dish, self.diet.dishes)
+    def test_validate_nutritional_values(self):
+        self.assertTrue(validate_nutritional_values(self.valid_dish))
+        self.assertTrue(validate_nutritional_values(self.high_carb_dish))
 
-    def test_add_ingredient_to_dish(self):
-        add_ingredient_to_dish(self.dish, self.ingredient1)
-        self.assertIn(self.ingredient1, self.dish.ingredients)
+    def test_validate_user_height(self):
+        self.assertTrue(validate_user_height(50))
+        self.assertFalse(validate_user_height(160))
+        self.assertFalse(validate_user_height(10))
 
-    def test_add_dish_to_diary(self):
-        add_dish_to_diary(self.diary, self.dish)
-        self.assertIn(self.dish, self.diary.dishes)
 
-    def test_person_can_have_only_one_diary(self):
-        diary2 = Diary(2, self.person)
-        assign_diary_to_person(self.person, self.diary)
-        with self.assertRaises(ValueError):
-            assign_diary_to_person(self.person, diary2)
-
-    def test_person_can_have_only_one_diet(self):
-        diet2 = Diet(2, "Vegan")
-        assign_diet_to_person(self.person, self.diet)
-        with self.assertRaises(ValueError):
-            assign_diet_to_person(self.person, diet2)
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

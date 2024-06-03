@@ -1,53 +1,31 @@
-from Calories import Calories
-from Diary import Diary
-from Diet import Diet
-from Dish import Dish
-from FakeRepository import FakeRepository
-from Ingredient import Ingredient
-from Macronutrients import Macronutrients
-from Person import Person
+import Dish
+import Diary
+import Diet
+import Ingredient
+import User
 
 
-def main():
-    repo = FakeRepository()
+user1 = User.User(1, 20, 'муж', 80, 'Влад', 'низкая')
+user2 = User.User(2, 21, 'муж', 65, 'Дмитрий', 'высокая')
+user3 = User.User(3, 21, 'муж', 72, 'Иван', 'средняя')
 
-    # Создаем экземпляры
-    person = Person(1, "John Doe")
-    diary = Diary(1, person)
-    diet = Diet(1, "Keto")
-    macronutrients = Macronutrients(20, 30, 50)
-    calories = Calories(500)
-    dish = Dish(1, "Salad", macronutrients, calories)
-    ingredient1 = Ingredient(1, "Lettuce")
-    ingredient2 = Ingredient(2, "Tomato")
+ingredient1 = Ingredient.Ingredient('Филе курицы')
+ingredient2 = Ingredient.Ingredient('Картофель')
+ingredient3 = Ingredient.Ingredient('Помидоры')
+ingredient4 = Ingredient.Ingredient('Макароны')
+ingredient5 = Ingredient.Ingredient('Яйца')
+ingredient6 = Ingredient.Ingredient('Клубника')
 
-    #устанавливаем отношения
-    person.set_diary(diary)
-    person.choose_diet(diet)
-    diet.add_dish(dish)
-    dish.add_ingredient(ingredient1)
-    dish.add_ingredient(ingredient2)
-    diary.add_dish(dish)
+diet1 = Diet.Diets('Низкокаллорийная')
+diet2 = Diet.Diets('Кето-диета')
+diet3 = Diet.Diets('Белковая')
 
-    # Добавляем экземпляры в репозиторий
-    repo.add_person(person)
-    repo.add_diary(diary)
-    repo.add_diet(diet)
-    repo.add_dish(dish)
-    repo.add_ingredient(ingredient1)
-    repo.add_ingredient(ingredient2)
 
-    # Извлекаем и используем экземпляры
-    retrieved_person = repo.get_person(1)
-    print(f"Person Name: {retrieved_person.name}")
-    print(f"Diary ID: {retrieved_person.diary.diary_id}")
-    print(f"Diet Name: {retrieved_person.diet.name}")
-    print(f"Dish Name in Diary: {retrieved_person.diary.dishes[0].name}")
-    print(f"Ingredients in Dish: {[ingredient.name for ingredient in retrieved_person.diary.dishes[0].ingredients]}")
-    print(f"Macronutrients: Protein {retrieved_person.diary.dishes[0].macronutrients.protein}, "
-          f"Fat {retrieved_person.diary.dishes[0].macronutrients.fat}, "
-          f"Carbs {retrieved_person.diary.dishes[0].macronutrients.carbs}")
-    print(f"Calories: {retrieved_person.diary.dishes[0].calories.amount}")
+dish1 = Dish.Dish(1, 'Вареная курица и пару долек помидоров', 987, 84, 12, 69, {ingredient1: 200, ingredient3: 150}, diet1)
+dish2 = Dish.Dish(2, 'Вареные яйца с клубникой', 560, 99, 100, 2, {ingredient5: 240, ingredient6: 400}, diet2)
 
-if __name__ == "__main__":
-    main()
+diary1 = Diary.Diary(1, user1, 'Завтрак', dish1.name)
+diary2 = Diary.Diary(2, user2, 'Обед', dish2.name)
+diary3 = Diary.Diary(3, user1, 'Ужин', dish1.name)
+
+

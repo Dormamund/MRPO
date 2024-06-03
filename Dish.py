@@ -1,16 +1,25 @@
 class Dish:
-    def __init__(self, dish_id, name, macronutrients, calories):
-        self.dish_id = dish_id
+    def __init__(self, id, name, cal, protein, fat, carb, ingredients, diet):
+        self.id = id
         self.name = name
-        self.macronutrients = macronutrients
-        self.calories = calories
-        self.ingredients = []
+        self.cal = cal
+        self.protein = protein
+        self.fat = fat
+        self.carb = carb
+        self.ingredients = ingredients
+        self.diet=diet
 
-    def add_ingredient(self, ingredient):
-        self.ingredients.append(ingredient)
+    def get_info(self):
+        return [self.id, self.name, self.cal, self.protein, self.fat, self.carb, self.ingredients, self.diet]
 
     def __eq__(self, other):
         if isinstance(other, Dish):
-            return (self.dish_id == other.dish_id and self.name == other.name and
-                    self.macronutrients == other.macronutrients and self.calories == other.calories)
+            return (self.id == other.id and
+                    self.name == other.name and
+                    self.cal == other.cal and
+                    self.protein == other.protein and
+                    self.fat == other.fat and
+                    self.carb == other.carb and
+                    self.ingredients == other.ingredients and
+                    self.diet == other.diet)
         return False
